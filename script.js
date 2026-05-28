@@ -1,85 +1,170 @@
-const words = ["Hindi", "English", "Punjabi", "Gujarati", "Marathi", "Bengali", "Tamil", "Telugu"];
+const words = [
+  {
+    word: "hindi",
+    hint: "Most widely spoken language in India",
+  },
+  {
+    word: "punjabi",
+    hint: "Language spoken in Punjab region",
+  },
+  {
+    word: "gujarati",
+    hint: "Language spoken in Gujarat region",
+  },
+  {
+    word: "marathi",
+    hint: "Language spoken in Maharashtra region",
+  },
+  {
+    word: "bengali",
+    hint: "Language spoken in West Bengal region",
+  },
+  {
+    word: "tamil",
+    hint: "Language spoken in Tamil Nadu region",
+  },
+  {
+    word: "telugu",
+    hint: "Language spoken in Andhra Pradesh regions",
+  },
+  {
+    word: "kannada",
+    hint: "Language spoken in Karnataka region",
+  },
+];
+const randomData = words[Math.floor(Math.random() * words.length)];
 
-const word = words[Math.floor(Math.random() * words.length)].toLowerCase();
+const word = randomData.word.toLowerCase();
+
+const hint = randomData.hint;
 
 console.log("Selected Word:", word);
 
 let guessedLetters = [];
 
-let attempts = 7;
+let displayLetters = new Array(word.length).fill("_");
+
+let attempts = word.length;
+
+const winningTarget = Math.floor(word.length / 2) + 1;
 
 const wordElement = document.getElementById("word");
+
+const hintElement = document.getElementById("hint");
+
+hintElement.innerText = `Hint: ${hint}`;
+
 const letterInput = document.getElementById("letterInput");
+
 const guessBtn = document.getElementById("guessBtn");
+
 const messageElement = document.getElementById("message");
+
 const attemptsElement = document.getElementById("attempts");
 
 function displayWord() {
-
-    let display = "";
-
-    for (let letter of word) {
-
-        if (guessedLetters.includes(letter)) {
-            display += letter + " ";
-        } else {
-            display += "_ ";
-        }
-    }
-    wordElement.innerText = display;
+  wordElement.innerText = displayLetters.join(" ");
 }
 
 displayWord();
 
 attemptsElement.innerText = `Attempts Left: ${attempts}`;
 
-document.getElementById("guessBtn").addEventListener("click", function () {
+guessBtn.addEventListener("click", function () {
+  const guessedLetter = letterInput.value.toLowerCase();
 
-    const input = document.getElementById("letterInput");
+  letterInput.value = "";
 
-    const guessedLetter = input.value.toLowerCase();
+  if (guessedLetter === "") {
+    return;
+  }
 
-    input.value = "";
+  let totalCount = 0;
+  let revealedCount = 0;
 
-    if (guessedLetter === "") {
-        return;
+  for (let i = 0; i < word.length; i++) {
+    if (word[i] === guessedLetter) {
+      totalCount++;
     }
 
-    if (guessedLetters.includes(guessedLetter)) {
-        messageElement.innerText = "Letter already guessed!";
-        return;
+    if (displayLetters[i] === guessedLetter) {
+      revealedCount++;
     }
+  }
 
-    guessedLetters.push(guessedLetter);
+  if (totalCount > 0 && totalCount === revealedCount) {
+    messageElement.innerText = "Letter already guessed!";
 
-    if (word.includes(guessedLetter)) {
-        messageElement.innerText = "Correct Guess!";
-    }else {
-        attempts--;
-        messageElement.innerText = "Wrong Guess!";
+    return;
+  }
+
+  guessedLetters.push(guessedLetter);
+
+  let found = false;
+
+  for (let i = 0; i < word.length; i++) {
+    if (word[i] === guessedLetter && displayLetters[i] === "_") {
+      displayLetters[i] = guessedLetter;
+
+      found = true;
+
+      break;
     }
+  }
 
-    attemptsElement.innerText = `Attempts Left: ${attempts}`;
+  attempts--;
 
-    displayWord();
+  if (found) {
+    messageElement.innerText = "Correct Guess!";
+  } else {
+    messageElement.innerText = "Wrong Guess!";
+  }
 
-    checkGame();
+  attemptsElement.innerText = `Attempts Left: ${attempts}`;
+
+  displayWord();
+
+  checkGame();
 });
 
 function checkGame() {
 
-    let won = true;
+  let revealedCount = 0;
 
-    for (let letter of word) {
-        if (!guessedLetters.includes(letter)) {
-            won = false;
-        }
+  for (let letter of displayLetters) {
+
+    if (letter !== "_") {
+
+      revealedCount++;
+
     }
 
-    if (won) {
-        messageElement.innerText = "Congratulations! You Won!";
-    }
-    if (attempts === 0) {
-        messageElement.innerText = `Game Over! The word was: ${word}`;
-    }
+  }
+
+  if (revealedCount >= winningTarget) {
+
+    messageElement.innerText =
+      "Congratulations! You Won!";
+
+    letterInput.disabled = true;
+
+    guessBtn.disabled = true;
+
+    return;
+
+  }
+
+  if (attempts <= 0) {
+
+    messageElement.innerText =
+      `Game Over! Word was: ${word}`;
+
+    wordElement.innerText = word;
+
+    letterInput.disabled = true;
+
+    guessBtn.disabled = true;
+
+  }
+
 }

@@ -35,3 +35,9 @@ button {
     margin-top: 15px;
     color: red;
 }
+
+#hint {
+    margin-top: 10px;
+    font-style: italic;
+    color: #555;
+}
