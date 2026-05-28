@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hangman Word Guessing Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Hangman Game</h1>
+
+        <h3>Guess The Indian Language Name</h3>
+
+        <!-- Shows the hidden word with guessed letters revealed -->
+        <p id="word"></p>
+
+        <input type="text" id="letterInput" maxlength="1" placeholder="Enter Letter">
+
+        <button id="guessBtn">Guess</button>
+
+        <!-- Displays feedback like correct guess, wrong guess, or game over -->
+        <p id="message"></p>
+
+        <!-- Shows how many attempts are left -->
+        <p id="attempts"></p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

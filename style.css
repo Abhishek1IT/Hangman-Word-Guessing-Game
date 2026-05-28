@@ -1,0 +1,37 @@
+body {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background: #497949;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container  {
+    background: wheat;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+}
+
+#word {
+    font-size: 30px;
+    letter-spacing: 10px;
+    margin: 20px 0;
+}
+
+input {
+    padding: 10px;
+    width: 100px;
+}
+
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#message {
+    margin-top: 15px;
+    color: red;
+}
