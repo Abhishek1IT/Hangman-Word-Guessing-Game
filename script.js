@@ -128,36 +128,16 @@ guessBtn.addEventListener("click", function () {
 });
 
 function checkGame() {
-
   let revealedCount = 0;
 
   for (let letter of displayLetters) {
-
     if (letter !== "_") {
-
       revealedCount++;
-
     }
-
   }
 
   if (revealedCount >= winningTarget) {
-
-    messageElement.innerText =
-      "Congratulations! You Won!";
-
-    letterInput.disabled = true;
-
-    guessBtn.disabled = true;
-
-    return;
-
-  }
-
-  if (attempts <= 0) {
-
-    messageElement.innerText =
-      `Game Over! Word was: ${word}`;
+    messageElement.innerText = "Congratulations! You Won!";
 
     wordElement.innerText = word;
 
@@ -165,6 +145,16 @@ function checkGame() {
 
     guessBtn.disabled = true;
 
+    return;
   }
 
+  if (attempts <= 0) {
+    messageElement.innerText = `Game Over! Word was: ${word}`;
+
+    wordElement.innerText = word;
+
+    letterInput.disabled = true;
+
+    guessBtn.disabled = true;
+  }
 }
